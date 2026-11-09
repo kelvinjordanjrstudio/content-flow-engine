@@ -1,15 +1,24 @@
-﻿from pydantic import BaseModel, Field
-from typing import List, Optional
+﻿from typing import List, Optional
+from pydantic import BaseModel, Field
 
-class Scene(BaseModel):
-    scene_number: int
-    duration_seconds: int = Field(default=5, description="Estimated duration of the scene in seconds")
-    narration: str = Field(description="Voiceover text for this scene")
-    visual_description: str = Field(description="Visual cues, on-screen text, or B-roll ideas")
+class HookModel(BaseModel):
+    visual_cue: str = Field(..., description="Visual instructions or camera framing for the hook.")
+    spoken_text: str = Field(..., description="The exact words spoken during the hook.")
 
-class VideoScript(BaseModel):
-    title: str = Field(description="Title or main concept of the video")
-    target_platform: str = Field(default="TikTok", description="Platform target e.g. TikTok, Shorts, Reels")
-    hook: str = Field(description="Attention-grabbing opening hook line")
-    scenes: List[Scene] = Field(default_factory=list, description="Ordered scenes in the script")
-    call_to_action: Optional[str] = Field(default=None, description="Closing call to action")
+class SceneModel(BaseModel):
+    timestamp: str = Field(..., description="Timestamp range for the scene (e.g., '0:00 - 0:05').")
+    visual: str = Field(..., description="Visual action or B-roll description.")
+    audio: str = Field(..., description="Voiceover or dialogue spoken during this scene.")
+    pacing_notes: Optional[str] = Field(None, description="Pacing, transition, or editing notes.")
+
+class MetadataModel(BaseModel):
+    estimated_duration_seconds: int = Field(..., description="Estimated total runtime in seconds.")
+    tags: List[str] = Field(..., description="SEO tags or platform keywords.")
+    call_to_action: str = Field(..., description="Final call to action for the viewer.")
+
+class VideoScriptModel(BaseModel):
+    title: str = Field(..., description="Catchy title for the short-form video.")
+    platform: str = Field(..., description="Target social platform (e.g., TikTok, Reels, Shorts).")
+    hook: HookModel
+    scenes: List[SceneModel]
+    metadata: MetadataModel
