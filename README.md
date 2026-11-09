@@ -35,8 +35,9 @@ content-flow-engine/
 │   └── test_generator.py
 ├── requirements.txt
 └── README.md
+```
 
-Installation
+## Installation
 1. Clone the repository and navigate to the project root:
 ```bash
 git clone <repository-url>
@@ -66,8 +67,7 @@ $env:OPENAI_API_KEY="your-api-key-here"
 export OPENAI_API_KEY="your-api-key-here"
 ```
 
-Usage
-Run Script Generation
+## Usage Run Script Generation
 Generate a video script from a source text file:
 ```bash
 python -m src.cli generate sample.txt --platform TikTok --format markdown --output script_output.md
@@ -86,7 +86,7 @@ Execute unit tests with pytest:
 python -m pytest -v
 ```
 
-Architecture & Data Schema
+## Architecture & Data Schema
 The generation flow enforces strict type safety end-to-end:
 
 1. `TextParser` extracts and cleans raw source text.
